@@ -8,5 +8,7 @@ namespace Repository.Repository.Interface
         Task<int> AddUser(User user);
         Task<User> GetUserById(int id);
         Task<bool>UpdateRecord(User user);
+        Task <bool>DeleteUser(int id);
     }
+
 }

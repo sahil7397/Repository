@@ -29,7 +29,7 @@
             </div>
         }
         <style>
-           
+
             .add-user-button {
                 transition: transform 0.2s;
             }
@@ -38,14 +38,14 @@
                     transform: scale(1.1);
                 }
         </style>
-        
+
         <div class="col-10 my-5 offset-1">
             <div class="float-end">
-                <a class="btn btn-sm btn-primary m-1" asp-controller="User" asp-action="AddUser">Add New User</a> 
+                <a class="btn btn-sm btn-primary m-1" asp-controller="User" asp-action="AddUser">Add New User</a>
                <a class="btn btn-sm btn-primary m-1 add-user-button" asp-controller="User" asp-action="AddUser">Add New User</a>
             </div>
             <table class="table table-hover table-striped table-bordered " style="border-radius: 10px;">
-                
+
                  <style>
                     .table-hover tbody tr:hover {
                         background-color: lightgoldenrodyellow; /* Replace with your desired hover color */
@@ -119,7 +119,7 @@
                 transform: scale(1.1);
             }
     </style>
-    
+
     <div class="row">
         <div class="col-12">
             <div class="float-end mb-3">
@@ -157,7 +157,18 @@
                                 </td>
                                 <td>
                                     <a class="btn btn-primary btn-sm add-user-button" asp-controller="User" asp-action="Edit" asp-route-id="@d.UserId">Edit</a>
-                                    <a class="btn btn-danger btn-sm add-user-button" asp-controller="User" asp-action="Delete">Delete</a>
+                                    <a class="btn btn-danger" onclick="Delete('@Url.Action("DeleteRecord", "User", new { id = d.UserId })')">Delete</a>
+
+                                    @* <a class="btn btn-danger btn-sm add-user-button" asp-controller="User" asp-action="DeleteRecord" asp-route-id="@d.UserId" onclick="return confirm('Are you Sure Want To Delete This Record!!!!!!!!!!!')">Delete</a> *@
+
+                                    <a class="btn btn-danger btn-sm add-user-button"
+                                       asp-controller="User"
+                                       asp-action="DeleteRecord"
+                                       asp-route-id="@d.UserId"
+                                       onclick="confirmDelete(event, '@d.UserId')">
+                                        Delete
+                                    </a>
+
                                 </td>
                             </tr>
                         }
@@ -167,6 +178,46 @@
         </div>
     </div>
 </div>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include SweetAlert2 CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Include Toastr CSS and JS (optional) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+<script>
+    function Delete(url) {
+        swal({
+            title: "Want To Delete Data?",
+            text: "Delete Information!!!",
+            buttons: true,
+            icon: "warning",
+            dangerModel: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: url,
+                    type: "DELETE",
+                    success: function (data) {
+                        if (data.success) {
+                            toastr.success(data.message);
+                            // Assuming dataTable is a DataTables instance, you can reload it here.
+                            // dataTable.ajax.reload();
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    }
+                })
+            }
+        });
+    }
+</script>
 
 
-  
+
+
+
