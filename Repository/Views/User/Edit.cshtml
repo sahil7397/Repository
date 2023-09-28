@@ -1,0 +1,76 @@
+﻿@model Repository.Models.User
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<div class="container">
+    <div class="row">
+        <style>
+
+            .add-user-button {
+                transition: transform 0.2s;
+            }
+
+                .add-user-button:hover {
+                    transform: scale(1.1);
+                }
+        </style>
+        <div class="col-6 offset-3 border border-4 rounded rounded-3 p-4 bg-dark">
+            <h3 class="text-white text-center p-2 m-1 add-user-button">Update User</h3>
+            <form method="post" asp-action="Edit">
+
+                <div class="form-check">
+                    <label asp-for="UserName" style="color: white;"></label>
+                    <input type="text" asp-for="UserName" class="form-control" placeholder="Enter Name" />
+                    <input type="hidden" asp-for="UserId"/>
+                </div>
+
+                <div class="form-check">
+                    <label asp-for="Email" style="color: white;"></label>
+                    <input type="text" asp-for="Email" class="form-control" placeholder="Enter Email" />
+                </div>
+                <div class="form-check">
+                    <label asp-for="Pincode" style="color: white;"></label>
+                    <input type="number" asp-for="Pincode" class="form-control" placeholder="Enter Pincode" />
+                </div>
+
+                <div class="form-check">
+                    <label asp-for="Gender" style="color: white;"></label>
+                    <br />
+                    <input type="radio" class="form-check-inline" name="Gender" asp-for="Gender" value="Male" />
+                    <label style="color: white;">Male</label>
+
+                    <input type="radio" class="form-check-inline" name="Gender" asp-for="Gender" value="Female" />
+                    <label style="color: white;">Female</label>
+
+                    <input type="radio" class="form-check-inline" name="Gender" asp-for="Gender" value="Other" />
+                    <label style="color: white;">Other</label>
+                </div>
+                <div class="form-check">
+                    <label asp-for="IsActived" style="color: white;"></label>
+                    @if(Model.IsActived== true)
+                    {
+                        <input type="checkbox" asp-for="IsActived" class="form-check-inline" checked="checked" />
+
+                    }
+                    else
+                    {
+                        <input type="checkbox" asp-for="IsActived" class="form-check-inline"/>
+
+                    }
+                </div>
+
+                <div>
+                    <input type="submit" class=" btn btn-sm btn-primary m-2 p-2 add-user-button float-end" value="Update" />
+                    <a href="@Url.Action("GetUsersList")" class="btn btn-sm btn-primary m-2 p-2 add-user-button float-end">Back</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+@* @section scripts{
+    @{
+        await Html.RenderPartialAsync("ValidationScriptsPartial");
+    }
+} *@
